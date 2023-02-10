@@ -1,24 +1,105 @@
+import random
+
+categories = {
+    'brown': 'Arts & Literature',
+    'pink': 'Entertainment',
+    'blue': 'Geography',
+    'yellow': 'History',
+    'green': 'Science & Nature',
+    'orange': 'Sports & Leisure',
+    'white': 'Roll again',
+    'start': 'Start'
+}
 
 board = {
-    'Arts & Literature': ['a5', 'a7', 'b3', 'b9', 'c2', 'd6', 'e1', 'e10', 'f4', 'f12'],
-    'Entertainment': ['a2', 'b6', 'c1', 'c10', 'd4', 'd12', 'e5', 'e7', 'f3', 'f9'],
-    'Geography': ['a4', 'a12', 'b5', 'b7', 'c3', 'c9', 'd2', 'e6', 'f1', 'f10'],
-    'History': ['a6', 'b1', 'b10', 'c4', 'c12', 'd5', 'd7', 'e3', 'e9', 'f2'],
-    'Science & Nature': ['a3', 'a9', 'b2', 'c6', 'd1', 'd10', 'e4', 'e12', 'f5', 'f7'],
-    'Sports & Leisure': ['a1', 'a10', 'b4', 'b12', 'c5', 'c7', 'd3', 'd9', 'e2', 'f6'],
-    'Roll again': ['a8', 'a11', 'b8', 'b11', 'c8', 'c11', 'd8', 'd11', 'e8', 'e11', 'f8', 'f11'],
-    'Start' : 0
+    '0': categories['start'],
+    'a1': categories['orange'],
+    'a2': categories['pink'],
+    'a3': categories['green'],
+    'a4': categories['blue'],
+    'a5': categories['brown'],
+    'a6': categories['yellow'],
+    'a7': categories['brown'],
+    'a8': categories['white'],
+    'a9': categories['green'],
+    'a10': categories['orange'],
+    'a11': categories['white'],
+    'a12': categories['blue'],
+    'b1': categories['yellow'],
+    'b2': categories['green'],
+    'b3': categories['brown'],
+    'b4': categories['orange'],
+    'b5': categories['blue'],
+    'b6': categories['pink'],
+    'b7': categories['blue'],
+    'b8': categories['white'],
+    'b9': categories['brown'],
+    'b10': categories['yellow'],
+    'b11': categories['white'],
+    'b12': categories['orange'],
+    'c1': categories['pink'],
+    'c2': categories['brown'],
+    'c3': categories['blue'],
+    'c4': categories['yellow'],
+    'c5': categories['orange'],
+    'c6': categories['green'],
+    'c7': categories['orange'],
+    'c8': categories['white'],
+    'c9': categories['blue'],
+    'c10': categories['pink'],
+    'c11': categories['white'],
+    'c12': categories['yellow'],
+    'd1': categories['green'],
+    'd2': categories['blue'],
+    'd3': categories['orange'],
+    'd4': categories['pink'],
+    'd5': categories['yellow'],
+    'd6': categories['brown'],
+    'd7': categories['yellow'],
+    'd8': categories['white'],
+    'd9': categories['orange'],
+    'd10': categories['green'],
+    'd11': categories['white'],
+    'd12': categories['pink'],
+    'e1': categories['brown'],
+    'e2': categories['orange'],
+    'e3': categories['yellow'],
+    'e4': categories['green'],
+    'e5': categories['pink'],
+    'e6': categories['blue'],
+    'e7': categories['pink'],
+    'e8': categories['white'],
+    'e9': categories['yellow'],
+    'e10': categories['brown'],
+    'e11': categories['white'],
+    'e12': categories['green'],
+    'f1': categories['blue'],
+    'f2': categories['yellow'],
+    'f3': categories['pink'],
+    'f4': categories['brown'],
+    'f5': categories['green'],
+    'f6': categories['orange'],
+    'f7': categories['green'],
+    'f8': categories['white'],
+    'f9': categories['pink'],
+    'f10': categories['blue'],
+    'f11': categories['white'],
+    'f12': categories['brown']
 }
+
+
+squares = [item for value in board.values() for item in value]
+size_squares = len(squares)
 
 class Player:
     # class var to keep track of the available tokens to be chosen
     available_tokens = {
-        'a': 'pink',
-        'b': 'yellow',
-        'c': 'orange',
-        'd': 'blue',
-        'e': 'brown',
-        'f': 'green'
+        'pink': 'pink',
+        'pink': 'yellow',
+        'blue': 'orange',
+        'yellow': 'blue',
+        'green': 'brown',
+        'orange': 'green'
     }
 
     # class var to keep track of the tokens already taken by other players
@@ -39,11 +120,18 @@ class Player:
             Player.taken_tokens[self.name] = Player.available_tokens.pop(token)
             print(Player.available_tokens)
             print(Player.taken_tokens)
-            self.token = Player.taken_tokens[token]
         except KeyError:
             # TODO: how to block the creation of a player without a token?
             print('Sorry, the token you chose is not available.')
+        
+        self.token = Player.taken_tokens[self.name]
 
+    # prompt a question to the player
+    def ask_question(self):
+        pass
 
-player1 = Player()
-player2 = Player()
+    # get a random square in the table
+    def roll_dice(self):
+        square = random.randint(size_squares)
+    
+        
