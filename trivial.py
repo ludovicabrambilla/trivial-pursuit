@@ -88,9 +88,6 @@ board = {
 }
 
 
-squares = [item for value in board.values() for item in value]
-size_squares = len(squares)
-
 class Player:
     # class var to keep track of the available tokens to be chosen
     available_tokens = {
@@ -126,12 +123,22 @@ class Player:
         
         self.token = Player.taken_tokens[self.name]
 
-    # prompt a question to the player
+    # TODO: prompt a question to the player
     def ask_question(self):
         pass
 
     # get a random square in the table
     def roll_dice(self):
-        square = random.randint(size_squares)
-    
+        square = random.choice(board.keys())
+        print('Rolling the die...')
+        print(f'Square {square}, category {board[square]}')
+        # what happens if square == roll again?
+        if board[square] == categories['white']:
+            self.roll_dice()
+        # TODO: what happens if square == start?
+        elif board[square] == categories['start']:
+            pass
+        # what happens if square == category?
+        else:
+            self.ask_question()
         
