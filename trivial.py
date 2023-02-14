@@ -2,12 +2,20 @@ import random
 from board import categories, board
 #from questions import questions
 
-questions = [
-    ("What year was the very first model of the iPhone released?", "2007"),
-    ("What\’s the shortcut for the \“copy\” function on most computers?", "ctrl c"),
-    ("What is often seen as the smallest unit of memory?", "kilobyte"),
-    ("What is Hawkeye’s real name?", "Clint Barton")
+questions = {
+    "What year was the very first model of the iPhone released?": [
+            "2007", "2006", "2008", "2022"
+    ],
+    "What\’s the shortcut for the \“copy\” function on most computers?": [
+        "ctrl c", "crtl v", "canc", "enter"
+    ],
+    "What is often seen as the smallest unit of memory?": [
+        "kilobyte", "megabyte", "gigabyte", "terabyte"
+    ],
+    "Is Java a type of OS?": [
+        "No", "Yes"
     ]
+}
 
 
 class Player:
@@ -47,8 +55,14 @@ class Player:
 
     # TODO: prompt a question to the player
     def ask_question(self):
-        for question, correct_answer in questions:
-            answer = input(f"{question}? ")
+        for question, alternatives in questions.items():
+            correct_answer = alternatives[0]
+            sorted_alternatives = sorted(alternatives)
+            for label, alternative in enumerate(sorted_alternatives):
+                print(f" {label}) {alternative}")
+
+            answer_label = int(input(f"{question}? "))
+            answer = sorted_alternatives[answer_label]
             if answer == correct_answer:
                 print('Correct!')
             else:
