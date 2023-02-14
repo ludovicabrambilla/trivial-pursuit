@@ -1,22 +1,7 @@
 import random
 from string import ascii_lowercase
 from board import categories, board
-#from questions import questions
-
-questions = {
-    "What year was the very first model of the iPhone released?": [
-            "2007", "2006", "2008", "2022"
-    ],
-    "What\’s the shortcut for the \“copy\” function on most computers?": [
-        "ctrl c", "crtl v", "canc", "enter"
-    ],
-    "What is often seen as the smallest unit of memory?": [
-        "kilobyte", "megabyte", "gigabyte", "terabyte"
-    ],
-    "Is Java a type of OS?": [
-        "No", "Yes"
-    ]
-}
+from questions import questions
 
 
 class Player:
