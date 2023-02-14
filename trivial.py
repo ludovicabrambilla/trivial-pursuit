@@ -1,4 +1,5 @@
 import random
+from string import ascii_lowercase
 from board import categories, board
 #from questions import questions
 
@@ -53,25 +54,43 @@ class Player:
         
         self.token = Player.taken_tokens[self.name]
 
+
     # TODO: prompt a question to the player
-    def ask_question(self):
-        for question, alternatives in questions.items():
-            correct_answer = alternatives[0]
-            sorted_alternatives = sorted(alternatives)
-            for label, alternative in enumerate(sorted_alternatives):
-                print(f" {label}) {alternative}")
+    def ask_question(self, category):
+        # TODO: make num_correct an instance variable
+        num_correct = 0 # keeps score
+        question = random.choice(list(questions[categories[category]]))
+        print(f"{question}")
 
-            answer_label = int(input(f"{question}? "))
-            answer = sorted_alternatives[answer_label]
-            if answer == correct_answer:
-                print('Correct!')
-            else:
-                print(f"The answer is {correct_answer}, not {answer!r}")
+        options = questions[categories[category]][question]
+        correct_answer = options[0]
+        # shuffle the order of the options with random sample
+        # present the options as "a) option"
+        labeled_options = dict(zip(ascii_lowercase, random.sample(options, k=len(options))))
+        for label, option in labeled_options.items():
+            print(f" {label}) {option}")
 
-    # get a random square in the table
+        # ERROR HANDLING: Reprompt the player if he/she gives an answer not in the options given
+        answer_label = input(f"\nChoice? ").strip().lower()
+        while answer_label not in labeled_options:
+            print(f"Please answer one of {', '.join(labeled_options)}")
+
+
+        answer = labeled_options[answer_label]
+        if answer == correct_answer:
+            num_correct += 1
+            print('⭐ Correct!⭐')
+        else:
+            print(f"The answer is {correct_answer!r}, not {answer!r}")
+
+
+    # simulate the player rolling the die
     def roll_die(self):
-        square = random.choice(board.keys())
         print('Rolling the die...')
+        # picks a random square from the board
+        square = random.choice(board.keys())
+        # check the corresponding category
+        category = board[square]
         print(f'Square {square}, category {board[square]}')
         # if square is roll again, call the function again
         if board[square] == categories['white']:
@@ -79,13 +98,9 @@ class Player:
         # TODO: what happens if square == start?
         # player chooses a color
         # ask a question from that color
-        elif board[square] == categories['start']:
+        elif category == categories['start']:
             pass
-        # what happens if square == category?
-        # ask question from that category
+        # what happens if square == category? ask question from that category
         else:
-            self.ask_question()
+            self.ask_question(category)
         
-class Trivia:
-    questions = prepare_questions()
-
