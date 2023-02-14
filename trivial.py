@@ -1,17 +1,24 @@
 import random
-
 from board import categories, board
-from questions import questions
+#from questions import questions
+
+questions = [
+    ("What year was the very first model of the iPhone released?", "2007"),
+    ("What\’s the shortcut for the \“copy\” function on most computers?", "ctrl c"),
+    ("What is often seen as the smallest unit of memory?", "kilobyte"),
+    ("What is Hawkeye’s real name?", "Clint Barton")
+    ]
+
 
 class Player:
     # class var to keep track of the available tokens to be chosen
     available_tokens = {
-        'pink': 'pink',
-        'pink': 'yellow',
-        'blue': 'orange',
-        'yellow': 'blue',
-        'green': 'brown',
-        'orange': 'green'
+        'a': 'pink',
+        'b': 'yellow',
+        'c': 'orange',
+        'd': 'blue',
+        'e': 'brown',
+        'f': 'green'
     }
 
     # class var to keep track of the tokens already taken by other players
@@ -40,7 +47,12 @@ class Player:
 
     # TODO: prompt a question to the player
     def ask_question(self):
-        pass
+        for question, correct_answer in questions:
+            answer = input(f"{question}? ")
+            if answer == correct_answer:
+                print('Correct!')
+            else:
+                print(f"The answer is {correct_answer}, not {answer!r}")
 
     # get a random square in the table
     def roll_die(self):
@@ -60,3 +72,6 @@ class Player:
         else:
             self.ask_question()
         
+class Trivia:
+    questions = prepare_questions()
+
