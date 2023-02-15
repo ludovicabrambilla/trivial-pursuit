@@ -5,87 +5,109 @@ from questions import questions
 
 
 class Player:
-    # class var to keep track of the available tokens to be chosen
-    available_tokens = {
-        'a': 'pink',
-        'b': 'yellow',
-        'c': 'orange',
-        'd': 'blue',
-        'e': 'brown',
-        'f': 'green'
-    }
+    # Class var to keep track of the available tokens to be chosen
+    available_tokens = ['pink', 'yellow', 'orange', 'blue', 'brown', 'green']
 
-    # class var to keep track of the tokens already taken by other players
+    # Class var to keep track of the tokens already taken by other players
     taken_tokens = {}
+
+    # Function to check if the input provided from the user is valid
+    # Takes the input prompt and value, the list where you want to check if the value exists, the error message to display if the input is not valid
+    def validate_input(self, user_input, validation_list, error_message):
+        while True:
+            label = input(user_input).strip().lower()
+            if label in validation_list:
+                return label
+            print(error_message)
+
+    
 
     # Initialize the player. Ask for name and token they want to choose.
     def __init__(self):
-        # make the user choose its name for the game
+        # USER CHOOSES A NAME FOR THE GAME
         name = input('Choose a name for your player: ').strip()
         self.name = name
-        # make the user choose a token
+
+        # USER CHOOSES A TOKEN
+        # Print the available tokens
         print('These are the available tokens:')
-        for item,value in Player.available_tokens.items():
-            print(f'{item}. {value}')
-        token = input('Choose one token. Type the corresponding letter to make your choice: ').strip().lower()
-        # TODO: reprompt the player if he doesn't choose a valid token
-        try:
-            Player.taken_tokens[self.name] = Player.available_tokens.pop(token)
-            print(Player.available_tokens)
-            print(Player.taken_tokens)
-        except KeyError:
-            # TODO: how to block the creation of a player without a token?
-            print('Sorry, the token you chose is not available.')
+        labeled_available_tokens = dict(zip(ascii_lowercase, Player.available_tokens))
+        for label, token in labeled_available_tokens.items():
+            print(f'{label}) {token}')
+        # Check if the input is valid
+        token_label_prompt = 'Choose one token. Type the corresponding letter to make your choice: '
+        token_error_message = f"Please choose one of the available tokens: {', '.join(labeled_available_tokens)}"
+        token_checked = self.validate_input(token_label_prompt, labeled_available_tokens, token_error_message)
+
+        # Store the valid chosen token value in a variable
+        token = labeled_available_tokens[token_checked]
+        # Remove it from the available tokens
+        Player.available_tokens.remove(token)
+        # Add it to the taken_tokens
+        Player.taken_tokens[self.name] = token
+        print(f"Your token is {token}.")
+        # TODO: debug functions
+        print(Player.available_tokens)
+        print(Player.taken_tokens)
         
+        # Store the token as an instance variable
         self.token = Player.taken_tokens[self.name]
 
 
-    # TODO: prompt a question to the player
+    # Prompt a question to the player
     def ask_question(self, category):
         # TODO: make num_correct an instance variable
         num_correct = 0 # keeps score
-        question = random.choice(list(questions[categories[category]]))
+        question = random.choice(list(questions[category]))
         print(f"{question}")
 
-        options = questions[categories[category]][question]
+        # get the answer options of the questions picked
+        options = questions[category][question]
+        # the correct answer is always the first in the options list
         correct_answer = options[0]
-        # shuffle the order of the options with random sample
+        # shuffle the order of the options with a random sample that takes all the available options
         # present the options as "a) option"
         labeled_options = dict(zip(ascii_lowercase, random.sample(options, k=len(options))))
         for label, option in labeled_options.items():
             print(f" {label}) {option}")
 
         # ERROR HANDLING: Reprompt the player if he/she gives an answer not in the options given
-        answer_label = input(f"\nChoice? ").strip().lower()
-        while answer_label not in labeled_options:
-            print(f"Please answer one of {', '.join(labeled_options)}")
-
-
-        answer = labeled_options[answer_label]
+        answer_label_prompt = f"\nChoice? "
+        answer_error_message = f"Please answer one of {', '.join(labeled_options)}"
+        answer_checked = self.validate_input(answer_label_prompt, labeled_options, answer_error_message)
+        answer = labeled_options[answer_checked]
         if answer == correct_answer:
             num_correct += 1
             print('⭐ Correct!⭐')
         else:
-            print(f"The answer is {correct_answer!r}, not {answer!r}")
+            print(f"Sorry, incorrect answer. The answer is {correct_answer!r}, not {answer!r}")
 
 
     # simulate the player rolling the die
     def roll_die(self):
         print('Rolling the die...')
         # picks a random square from the board
-        square = random.choice(board.keys())
+        square = random.choice(list(board.keys()))
         # check the corresponding category
         category = board[square]
         print(f'Square {square}, category {board[square]}')
         # if square is roll again, call the function again
-        if board[square] == categories['white']:
-            self.roll_dice()
-        # TODO: what happens if square == start?
-        # player chooses a color
-        # ask a question from that color
+        if category == categories['white']:
+            self.roll_die()
+        # if die goes on Start, the user must choose a category
         elif category == categories['start']:
-            pass
-        # what happens if square == category? ask question from that category
-        else:
-            self.ask_question(category)
+            labeled_categories = dict(zip(ascii_lowercase, list(questions)))
+            print('Choose a category for your question:')
+            for label, question_category in labeled_categories:
+                print(f" {label}) {question_category}")
+
+            # check if the provided category is valid
+            category_label_prompt = f"\nChoice? "
+            category_error_message = f"Please choose one of the categories {', '.join(labeled_categories)}"
+            category_checked = self.validate_input(category_label_prompt, labeled_categories, category_error_message)
+            # the category is chosen from the user
+            category = labeled_categories[category_checked]
+
+        # ask question from a category
+        self.ask_question(category)
         
