@@ -1,7 +1,7 @@
-from board import categories
+from board import Board
 
-questions = {
-        categories['green']: {
+default_questions = {
+        Board.colors[2]: {
             "What year was the very first model of the iPhone released?": [
                 "2007", "2006", "2008", "2022"
             ],
@@ -63,7 +63,7 @@ questions = {
                 "Three", "One", "Two", "None"
             ]
         },
-        categories['pink']: {
+        Board.colors[-1]: {
             "What is Hawkeye’s real name?": [
                 "Clint Barton", "Tony Stark", "Steve Rogers", "Bruce Banner"
             ],
@@ -125,7 +125,7 @@ questions = {
                 "Kylie Jenner", "Jack Cowin", "Kim Beom-Su", "Jeff Bezos"
             ]
         },
-        categories['brown']: {
+        Board.colors[1]: {
             "In which US city is Broadway located?": [
                 "New York City", "Los Angeles", "Las Vegas", "Washington D.C."
             ],
@@ -187,7 +187,7 @@ questions = {
                 "Dan Brown", "Khaled Hosseini", "John Grishman", "Jane Austen"
             ]
         },
-        categories['yellow']: {
+        Board.colors[3]: {
             "How many Pyramids of Giza were made?": [
                 "Three", "One", "Two", "Five"
             ],
@@ -249,7 +249,7 @@ questions = {
                 "Chernobyl", "Fukushima", "KORI", "Qinshan"
             ]
         },
-        categories['blue']: {
+        Board.colors[0]: {
             "What is the name of the thin and long country that spans more than half of the western coast of South America?": [
                 "Chile", "Peru", "Argentina", "Brasil"
             ],
@@ -311,7 +311,7 @@ questions = {
                 "Venus", "Mars", "Jupiter", "Saturn"
             ]
         },
-        categories['orange']: {
+        Board.colors[-2]: {
             "Who is often credited with creating the world’s first car?": [
                 "Karl Benz", "Henry Ford", "Frederick Taylor", "Wilbur Wright"
             ],
