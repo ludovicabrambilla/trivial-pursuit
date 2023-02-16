@@ -1,6 +1,6 @@
 import random
 from string import ascii_lowercase
-from board import categories, board
+from board import categories, squares
 from questions import questions
 
 
@@ -91,10 +91,10 @@ class Player:
     def roll_die(self):
         print('Rolling the die...')
         # picks a random square from the board
-        square = random.choice(list(board.keys()))
+        square = random.choice(list(squares.keys()))
         # check the corresponding category
-        category = board[square]
-        print(f'Square {square}, category {board[square]}')
+        category = squares[square]
+        print(f'Square {square}, category {squares[square]}')
         # if square is roll again, call the function again
         if category == categories['white']:
             self.roll_die()
