@@ -7,6 +7,7 @@ class Player:
         self.game = game
         self.name = self.choose_name()        
         self.token = self.choose_token()
+        self.is_playing = False
 
     
     # Player chooses name

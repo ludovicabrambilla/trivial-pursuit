@@ -25,7 +25,10 @@ class Game:
         self.players = self.create_players(self.players_num)
         self.ordered_players = self.get_players_order()
 
-    
+        # Game variables
+        # a variable to keep track of the player actually playing
+        self.playing = ''
+        self.play()
 
     # Ask the user if they want to customize their categories and questions
     def ask_if_customize(self):
@@ -71,6 +74,7 @@ class Game:
 
     # Create players (as many as indicated with get_number_of_players)
     def create_players(self, number):
+        self.players = []
         for i in range(number):
             player = Player(self)
             self.players.append(player)
@@ -139,6 +143,10 @@ class Game:
             print('⭐ Correct!⭐')
         else:
             print(f"Sorry, incorrect answer. The answer is {correct_answer!r}, not {answer!r}")
+
+    # After instantiating the game, play it
+    def play(self):
+        pass
 
 game1 = Game()
 game1.validate_roll_die(game1.players[0], 'a1')
