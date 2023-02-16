@@ -2,24 +2,25 @@ import random
 from trivial import Player
 from utility import validate_option, print_options
 from questions import default_questions
-from board import squares, special_squares
+from board import Board
 
 
 
 
 class Game:
-    colors = ['blue', 'brown', 'green', 'yellow', 'orange', 'pink']
-    board = squares
-    special = special_squares
-
-    tokens = [i for i in colors]
+    tokens = [i for i in Board.colors]
 
     min_players = 2
     max_players = 6
 
     def __init__(self):
         # Game setup
+        self.board = Board()
+        self.categories = {}
+        self.questions = {}
         self.customize = self.ask_if_customize()
+
+        # Players setup
         self.players_num = self.get_number_of_players()
         self.players = []
         self.available_tokens = Game.tokens[:self.players_num]
@@ -34,7 +35,6 @@ class Game:
         while True:
             customize = input("Do you want to create your own categories (y/n)? ").strip().lower()
             if customize == 'y':
-                self.customize = True
                 # call the function to create the categories
                 self.create_categories()
                 # call the function to create the questions
@@ -43,7 +43,7 @@ class Game:
             elif customize == 'n':
                 # provide the default categories
                 category_names = ['Geography', 'Arts & Literature', 'Science & Nature', 'History','Sports & Leisure', 'Entertainment']
-                self.categories = dict(zip(Game.colors, category_names))
+                self.categories = {color:category_name for (color, category_name) in zip(self.board.colors, category_names)}
                 # provide the default questions
                 self.questions = default_questions
                 return False
@@ -87,6 +87,35 @@ class Game:
         # Remove it from the available tokens
         self.available_tokens.remove(player.token)
 
+    def validate_roll_die(self, player, square):
+        # check the corresponding category
+        color = self.board.squares[square]
+        if color == 'roll again':
+            player.roll_die()
+        # if die goes on Start, the user must choose a category
+        elif color == 'start':
+            category = self.ask_category()
+        else:
+            category = self.categories[color]
+        # ask question from a category
+        self.ask_question(category)
+
+    def ask_category(self):
+        labeled_categories = print_options(self.categories.values())
+        # check if the provided category is valid
+        category_checked = validate_option(
+            labeled_categories,
+            f"\nChoice? ",
+            f"Please choose one of the categories {', '.join(labeled_categories)}"
+            )
+        # the category is chosen from the user
+        category = labeled_categories[category_checked]
+        return category
+
+
+    def ask_question(self,category):
+        pass
+
 '''
     # Prompt a question to the player
     def ask_question(self, category):
@@ -117,3 +146,4 @@ class Game:
 '''
 
 game1 = Game()
+game1.validate_roll_die(game1.players[0], 'a1')
