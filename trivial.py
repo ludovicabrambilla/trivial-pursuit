@@ -1,6 +1,5 @@
 import random
 from utility import validate_option, print_options
-from board import Board
 
 class Player:
     # Initialize the player. Ask for name and token they want to choose.
@@ -41,26 +40,4 @@ class Player:
         return square
     
 
-        # check the corresponding category
-        color = squares[square]
-        # category
-        category = categories[color]
-        print(f'Square "{square}", color "{squares[square]}", category "{category}"')
-        # if square is roll again, call the function again
-        if category == categories['white']:
-            self.roll_die()
-        # if die goes on Start, the user must choose a category
-        elif category == categories['start']:
-            labeled_categories = self.print_options(list(questions))
-            # check if the provided category is valid
-            category_checked = self.validate_input(
-                labeled_categories,
-                f"\nChoice? ",
-                f"Please choose one of the categories {', '.join(labeled_categories)}"
-                )
-            # the category is chosen from the user
-            category = labeled_categories[category_checked]
-
-        # ask question from a category
-        self.ask_question(category)
         

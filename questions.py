@@ -1,7 +1,8 @@
 from board import Board
+default_categories = ['Geography', 'Arts & Literature', 'Science & Nature', 'History','Sports & Leisure', 'Entertainment']
 
 default_questions = {
-        Board.colors[2]: {
+        'Science & Nature': {
             "What year was the very first model of the iPhone released?": [
                 "2007", "2006", "2008", "2022"
             ],
@@ -63,7 +64,7 @@ default_questions = {
                 "Three", "One", "Two", "None"
             ]
         },
-        Board.colors[-1]: {
+        'Entertainment': {
             "What is Hawkeye’s real name?": [
                 "Clint Barton", "Tony Stark", "Steve Rogers", "Bruce Banner"
             ],
@@ -125,7 +126,7 @@ default_questions = {
                 "Kylie Jenner", "Jack Cowin", "Kim Beom-Su", "Jeff Bezos"
             ]
         },
-        Board.colors[1]: {
+        'Arts & Literature': {
             "In which US city is Broadway located?": [
                 "New York City", "Los Angeles", "Las Vegas", "Washington D.C."
             ],
@@ -187,7 +188,7 @@ default_questions = {
                 "Dan Brown", "Khaled Hosseini", "John Grishman", "Jane Austen"
             ]
         },
-        Board.colors[3]: {
+        'History': {
             "How many Pyramids of Giza were made?": [
                 "Three", "One", "Two", "Five"
             ],
@@ -249,7 +250,7 @@ default_questions = {
                 "Chernobyl", "Fukushima", "KORI", "Qinshan"
             ]
         },
-        Board.colors[0]: {
+        'Geography': {
             "What is the name of the thin and long country that spans more than half of the western coast of South America?": [
                 "Chile", "Peru", "Argentina", "Brasil"
             ],
@@ -311,7 +312,7 @@ default_questions = {
                 "Venus", "Mars", "Jupiter", "Saturn"
             ]
         },
-        Board.colors[-2]: {
+        'Sports & Leisure': {
             "Who is often credited with creating the world’s first car?": [
                 "Karl Benz", "Henry Ford", "Frederick Taylor", "Wilbur Wright"
             ],

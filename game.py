@@ -1,7 +1,7 @@
 import random
 from trivial import Player
 from utility import validate_option, print_options
-from questions import default_questions
+from questions import default_questions, default_categories
 from board import Board
 
 
@@ -97,6 +97,7 @@ class Game:
             category = self.ask_category()
         else:
             category = self.categories[color]
+        print(category)
         # ask question from a category
         self.ask_question(category)
 
@@ -113,25 +114,18 @@ class Game:
         return category
 
 
-    def ask_question(self,category):
-        pass
-
-'''
-    # Prompt a question to the player
     def ask_question(self, category):
-        # TODO: make num_correct an instance variable
-        num_correct = 0 # keeps score
         # Choose a question
         question = random.choice(list(self.questions[category]))
         print(f"{question}")
-        # get the answer options of the questions picked
-        options = questions[category][question]
+        # Get the answer options (use question as key)
+        options = self.questions[category][question]
         # the correct answer is always the first in the options list
         correct_answer = options[0]
         # shuffle the order of the options with a random sample that takes all the available options and print them
-        labeled_options = self.print_options(random.sample(options, k=len(options)))
+        labeled_options = print_options(random.sample(options, k=len(options)))
         # ERROR HANDLING: Reprompt the player if he/she gives an answer not in the options given
-        answer_checked = self.validate_option(
+        answer_checked = validate_option(
             labeled_options,
             f"\nChoice? ",
             f"Please answer one of {', '.join(labeled_options)}"
@@ -142,8 +136,6 @@ class Game:
             print('⭐ Correct!⭐')
         else:
             print(f"Sorry, incorrect answer. The answer is {correct_answer!r}, not {answer!r}")
-
-'''
 
 game1 = Game()
 game1.validate_roll_die(game1.players[0], 'a1')
