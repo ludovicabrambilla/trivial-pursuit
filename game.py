@@ -1,10 +1,8 @@
 import random
-from trivial import Player
+from player import Player
 from utility import validate_option, print_options
 from questions import default_questions, default_categories
 from board import Board
-
-
 
 
 class Game:
@@ -22,11 +20,11 @@ class Game:
 
         # Players setup
         self.players_num = self.get_number_of_players()
-        self.players = []
         self.available_tokens = Game.tokens[:self.players_num]
         self.taken_tokens = {}
+        self.players = self.create_players(self.players_num)
+        self.ordered_players = self.get_players_order()
 
-        self.create_players(self.players_num)
     
 
     # Ask the user if they want to customize their categories and questions
@@ -86,6 +84,11 @@ class Game:
         self.taken_tokens[player.name] = player.token
         # Remove it from the available tokens
         self.available_tokens.remove(player.token)
+
+    # Define the order of the players
+    def get_players_order(self):
+        return random.sample(self.players, k=len(self.players))
+
 
     def validate_roll_die(self, player, square):
         # check the corresponding category
