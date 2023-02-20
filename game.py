@@ -33,7 +33,7 @@ class Game:
     # Ask the user how many players he/she wants to create
     def get_number_of_players(self):
         while True:
-            num = input("\nHow many players do you want to create (min. 2 - max. 6)? ").strip().lower()
+            num = input("How many players do you want to create (min. 2 - max. 6)? ").strip().lower()
             try:
                 num = int(num)
                 if num >= 2 and num <= 6:
@@ -49,7 +49,7 @@ class Game:
         for i in range(number):
             player = Player(self)
             self.players.append(player)
-            print(f"\nPlayer n. {i+1}, \"{player.name}\" created successfully.")
+            print(f"\nPlayer n. {i+1}, \"{player.name}\" created successfully.\n")
             self.update_tokens(player)
         return self.players
     
@@ -68,7 +68,9 @@ class Game:
     # DEFINE THE PATHS THE GAME TAKES AFTER THE PLAYER ROLLS THE DIE
     def get_category(self, player):
         square = player.roll_die(self.board.squares)
-        print(f'The player is on {square}')
+        print('-----------------------------------------------')
+        print(f'"{player.name}" is on {square}')
+        print('-----------------------------------------------')
         global color
         color = self.board.squares[square]
         if color == 'roll again':
@@ -90,7 +92,7 @@ class Game:
         category_checked = validate_option(
             validation_list=labeled_categories,
             user_input=f"\nChoice? ",
-            error_message=f"Please choose one of the categories {', '.join(labeled_categories)}"
+            error_message=f"\nPlease choose one of the categories {', '.join(labeled_categories)}"
             )
         # the category is chosen from the user
         return labeled_categories[category_checked]
@@ -169,9 +171,9 @@ class Game:
                         # b) wins (meaning, the token is complete and the answer is right)
                         elif player.can_win() == True:
                             winner = player
-                            print('***************************')
+                            print('*******************************************************')
                             print(f'{winner.name} won the game!!!!')
-                            print('***************************')
+                            print('*******************************************************')
 
                             return winner
                         # c) answer is correct and loop continues
