@@ -59,5 +59,4 @@ class Player:
     
     # Check if player can win (== all scores are 1)
     def can_win(self):
-        return all(score == 1 for score in self.score) and self.is_on_start()
-    
+        return all(score == 1 for score in self.score.values()) and self.is_on_start() == True

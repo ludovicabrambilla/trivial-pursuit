@@ -64,24 +64,18 @@ class Game:
     def get_players_order(self):
         return random.sample(self.players, k=len(self.players))
     
-    # Check who is playing
-    def check_is_playing(self, players):
-        for player in players:
-            if player.is_playing == True:
-                self.playing = player
-
-    def get_color_from_square(self, square):
-        color = self.board.squares[square]
-        return color
 
     # DEFINE THE PATHS THE GAME TAKES AFTER THE PLAYER ROLLS THE DIE
     def get_category(self, player):
         square = player.roll_die(self.board.squares)
         print(f'The player is on {square}')
-        color = self.get_color_from_square(square)
+        global color
+        color = self.board.squares[square]
         if color == 'roll again':
-            self.get_category(player)
+            # recall the function to get a new square
+            return self.get_category(player)
         elif color == 'start':
+            # category is chosen by the user
             return self.choose_category()
         else:
             # category is already assigned to the square
@@ -128,7 +122,30 @@ class Game:
         else:
             print(f"\nSorry, incorrect answer. The answer is {correct_answer!r}, not {answer!r}\n")
             return False        
-              
+
+    # Prepare the category, ask the question and get the answer from user
+    def get_answer(self, player):
+        print(f'"{player.name}" is playing.')
+        # Get category
+        category = self.get_category(player)
+        
+        # Before displaying the question, notify the player if he/she plays for a token or for winning
+        player_on_special = player.is_on_special()
+        player_can_win = player.can_win()
+
+        if player_on_special:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print('You play for a token!')
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        elif player_can_win:
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            print('YOU PLAY TO WIN!')
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
+        # Get the answer (correct or incorrect)
+        answer = self.ask_question(category)
+        return answer 
+        
 
     # After instantiating the game, play it
     def play(self, players):
@@ -136,31 +153,33 @@ class Game:
         print('\n\nOkay, now that everything is set...LET THE GAMES BEGIN!!!\n\n')
         print('--------------------------------------------------------------------\n')
         
-        for player in players:
-            print(f'It\'s \"{player.name}\"\'s turn.')
-            self.playing = player
-            player.is_playing = True
-            while player.is_playing:
-                print(f'{player.name} is playing: {player.is_playing}')
-                category = self.get_category(player)
-                color = self.get_color_from_square(player.square)
+        while True:
+            for player in players:
+                print(f'It\'s \"{player.name}\"\'s turn.')
+                player.is_playing = True
+                # Keep asking questions to the player until either he/she wins or he/she gives the wrong answer
+                while player.is_playing == True:
+                    # Ask the question and get the answer
+                    answer = self.get_answer(player)
+                    # If answer is right, check if:
+                    if answer == True:
+                        # a) player gets a point on his/her token
+                        if player.is_on_special() == True:
+                            player.add_point(color)
+                        # b) wins (meaning, the token is complete and the answer is right)
+                        elif player.can_win() == True:
+                            winner = player
+                            print('***************************')
+                            print(f'{winner.name} won the game!!!!')
+                            print('***************************')
+
+                            return winner
+                        # c) answer is correct and loop continues
+                        else:
+                            continue
+                    # d) answer is wrong so player is not playing anymore (the loop breaks)
+                    else:
+                        player.is_playing = False
+                # After breaking the loop, the iteration goes on to the next player
+                continue
                 
-                player_on_special = player.is_on_special()
-                player_can_win = player.can_win()
-
-                if player_on_special:
-                    print('You play for a token!')
-                elif player_can_win:
-                    print('YOU PLAY TO WIN!')
-
-                answer = self.ask_question(category)
-                if answer:
-                    if player_on_special:
-                        player.add_point(color)
-                    elif player.can_win():
-                        print('***************************')
-                        print(f'{player} won the game!!!!')
-                        print('***************************')
-                        return False
-                print(f'{player.score}')
-            player.is_playing = False
