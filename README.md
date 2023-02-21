@@ -2,10 +2,28 @@
 
 Trivia like Python quiz game (2 to 6 players) built for Codecademy "Computer Science - Career Path".
 The project is an application of the concepts learnt through the first module of the course, which covers basic elements of Python, from the introduction to programming to the first elements of OOP.
+________
 
 ## Table of contents
+1. [Acknowledgements](#acknowledgements)
+2. [Disclaimer](#disclaimer-this-is-a-learning-project)
+3. [How to play](#how-to-play)
 
+    a. [General rules](#general-rules)
 
+    b. [Initialize the game](#initialize-the-game)
+
+    c. [Play](#play)
+4. [Project structure and features](#project-structure-and-features)
+
+    a. [Course prompt](#course-prompt)
+
+    b. [Built to be enhanced](#built-to-be-enhanced)
+
+    c. [Elements of the game](#elements-of-the-game)
+
+5. [Upcoming](#upcoming)
+_________
 ## Acknowledgements
 ### Code structure and development
 - [Codecademy](https://join.codecademy.com/learn/paths/computer-science/)
